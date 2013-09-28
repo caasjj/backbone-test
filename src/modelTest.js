@@ -52,7 +52,8 @@
 					console.log( 'Update done. Reloading...' );
 					myModelItem.fetch().then(
 						function ( resp, status, qxhr ) {
-							console.log( 'Reloaded.  Show:' )
+							console.log( 'Reloaded.  Show:' );
+							console.log( 'Name' + myModelItem.get( 'name' ) + '(Resp: ' + JSON.stringify(resp) + ')' + 'qxhr.readyState: ' + qxhr.readyState );
 						},
 						function (qxhr, error) {
 							console.log( 'reload Failed!! Error: ' + error );
