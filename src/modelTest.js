@@ -13,7 +13,7 @@
 	} );
 
 	myModelItem.url = '/PHP/DATA/public_html/restaurants/15';
-	var updateName = 'Pizza Hut';
+	var updateName = 'Chinese dump Hut';
 
 	function loadModel () {
 		console.log( 'Loading Model for first time' )
@@ -41,11 +41,39 @@
 		console.log( 'Name: ' + myModelItem.get( 'name' ) + ', Delivery: ' + myModelItem.get( 'delivery' ) )
 	}
 
-	loadModel().then( function () {
-		showModel();
-		updateModel().then( function () {
-			reLoadModel().then( reShowModel );
-		} );
-	} );
+	loadModel().then(
+		function ( resp, status, qxhr ) {
+			console.log( 'Loaded. Show:' );
+			console.log( 'Name' + myModelItem.get( 'name' ) + '(Resp: ' + JSON.stringify(resp) + ')' + 'qxhr.readyState: ' + qxhr.readyState );
+			console.log( 'Updating...' );
+			myModelItem.set( 'name', updateName );
+			myModelItem.save().then(
+				function ( resp, status, qxhr ) {
+					console.log( 'Update done. Reloading...' );
+					myModelItem.fetch().then(
+						function ( resp, status, qxhr ) {
+							console.log( 'Reloaded.  Show:' )
+						},
+						function (qxhr, error) {
+							console.log( 'reload Failed!! Error: ' + error );
+						});
+				},
+				function ( qxhr, error) {
+					console.log( 'Update Failed!! Error: ' + error );
+					console.log( 'Reloading anyway...' );
+					myModelItem.fetch().then(
+						function ( resp, qxhr, opts ) {
+							console.log( 'Reloaded.  Show:' );
+							console.log( 'Name' + myModelItem.get( 'name' ) + '(Resp: ' + JSON.stringify(resp) + ')' + 'qxhr.readyState: ' + qxhr.readyState );
+						},
+						function () {
+							console.log( 'Reload Failed!!' );
+						});
+				} );
+		},
+		function(qxhr, error) {
+			console.log( 'Load failed!! Erro: ' + error);
+		}
+	);
 
 })();
