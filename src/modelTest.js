@@ -5,47 +5,46 @@
  * Time: 9:15 AM
  * To change this template use File | Settings | File Templates.
  */
-(function () {
-	var MyModelItem = Backbone.Model.extend( {id:"id"} );
-
-	var myModelItem = new MyModelItem( {
-
-	} );
-
-	myModelItem.url = '/PHP/DATA/public_html/restaurants/15';
-	var updateName = 'Pizza Hut';
-
-	function loadModel () {
-		console.log( 'Loading Model for first time' )
-		return myModelItem.fetch();
+//(function () {
+var MyModelItem = Backbone.Model.extend( {
+	id     :"id",
+	display:function ( msg ) {
+		console.log( msg + ' ' + this.get( 'name' ) );
+	},
+	readSuccess: function(model, resp, opts) {
+		this.display('Loaded model:');
+	},
+	readError: function(model, xhr, opts) {
+		this.display( 'Could not load model from server');
 	}
+} );
 
-	function showModel () {
-		console.log( 'Model Loaded. Showing Model.' )
-		console.log( 'Name: ' + myModelItem.get( 'name' ) + ', Delivery: ' + myModelItem.get( 'delivery' ) );
-	}
+var myModelItem = new MyModelItem( {
 
-	function updateModel () {
-		console.log( 'Model Shown. Updating Model.' );
-		myModelItem.set( 'name', updateName );
-		return myModelItem.save();
-	}
+} );
 
-	function reLoadModel () {
-		console.log( 'Model Updated. Re-loading' );
-		return myModelItem.fetch();
-	}
+myModelItem.url = '/PHP/DATA/public_html/restaurants/15';
 
-	function reShowModel () {
-		console.log( 'Model re-loaded. Re-showing.' );
-		console.log( 'Name: ' + myModelItem.get( 'name' ) + ', Delivery: ' + myModelItem.get( 'delivery' ) )
-	}
+var loadDefer = myModelItem.fetch( {
+	success: function(m,r,o) { return myModelItem.readSuccess(m,r,o); },
+	error  : function(m,r,o) { return myModelItem.readError(m,r,o); }
+} );
 
-	loadModel().then( function () {
-		showModel();
-		updateModel().then( function () {
-			reLoadModel().then( reShowModel );
-		} );
-	} );
+var updateDefer = loadDefer.then( function ( resp, stat, opts ) {
+	console.log( 'Load Ajax Done: ' + JSON.stringify( resp ) );
+	myModelItem.set('name', 'Junk');
+	var saveDefer =  myModelItem.save();
+	return saveDefer;
+}, function ( resp, xhr, opts ) {
+	console.log( 'Could not load model' );
+} );
 
-})();
+updateDefer.then( function(resp, stat, opts) {
+	console.log( 'Update Ajax Done:' + JSON.stringify(resp) );
+}, function(resp, stat, opts) {
+	console.log( 'Update Ajax fail:' + JSON.stringify(resp) );
+})
+
+
+
+
