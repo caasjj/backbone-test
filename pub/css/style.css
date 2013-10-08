@@ -1,0 +1,8 @@
+li {
+    list-style: none;
+}
+
+#del {
+    background-color: red;
+    font-weight: bolder;
+}
