@@ -1,40 +1,36 @@
+
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Backbone Anatomy</title>
-
+    <title>Backbone Test</title>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
     <!-- JavaScript Libraries -->
-    <script type="text/javascript" src="../lib/jquery.js"></script>
-    <script type="text/javascript" src="../lib/underscore.js"></script>
-    <script type="text/javascript" src="../lib/backbone-dev.js"></script>
-    <script type="text/javascript" src="../lib/handlebars.js"></script>
-    <script type="text/javascript" src="../lib/firebase.js"></script>
-    <script type="text/javascript" src="../lib/backbone-firebase.js"></script>
+    <script src="../bower_components/jquery/jquery.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/backbone/backbone.js"></script>
+    <script src="../bower_components/handlebars/handlebars.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
 </head>
 <body>
-<div id="app">
-    <div id="new-cd">
-        <input type="text" name="album" placeholder="album">
-        <input type="text" name="artist" placeholder="artist">
-        <input type="text" name="genre" placeholder="genre">
-        <input type="text" name="stars" placeholder="stars">
-    </div>
-    <button id="del">Delete</button>
-    <ul id="out">
-    </ul>
-</div>
+    <!-- Main Container -->
+<div id="main" class="container"></div>
+    <!-- Scripts -->
+    <script src="../src/models/TestModel.js"></script>
+    <script src="../src/models/TestCollection.js"></script>
+    <script>
+        var testCollection = new TestCollection( {
+        });
+        testCollection.add( new TestModel() );
+        testCollection.at(0).trig();
 
-<!-- Handlebars Templates -->
-<script id="cdlist-template" type="text/x-handlebars-template">
-        <input type="checkbox" id="sel">
-        {{album}} by {{artist}} - {{genre}} ({{stars}})
-</script>
-
-<!-- My Scripts -->
-<script type="text/javascript" src="../src/cdCollection.js"></script>
+        var aModel = new TestModel();
+        testCollection.add( aModel );
+        aModel.trigger('trig');
+        testCollection.at(1).trig();
+    </script>
 </body>
 </html>

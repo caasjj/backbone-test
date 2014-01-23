@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Backbone Anatomy</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- JavaScript Libraries -->
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../lib/underscore.js"></script>
+    <script type="text/javascript" src="../lib/backbone-dev.js"></script>
+    <script type="text/javascript" src="../lib/handlebars.js"></script>
+    <script type="text/javascript" src="../lib/firebase.js"></script>
+    <script type="text/javascript" src="../lib/firebase-simple-login.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <div id="new-cd">
+        <input type="text" name="album" placeholder="album">
+        <input type="text" name="artist" placeholder="artist">
+        <input type="text" name="genre" placeholder="genre">
+        <input type="text" name="stars" placeholder="stars">
+    </div>
+    <button id="del">Delete</button>
+    <ul id="out">
+    </ul>
+</div>
+
+<!-- Handlebars Templates -->
+<script id="cdlist-template" type="text/x-handlebars-template">
+        <input type="checkbox" id="sel">
+        {{album}} by {{artist}} - {{genre}} ({{stars}})
+</script>
+
+<!-- My Scripts -->
+<script type="text/javascript" src="../src/junk/cdCollection.js"></script>
+</body>
+</html>
